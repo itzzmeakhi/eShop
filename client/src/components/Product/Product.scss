@@ -1,0 +1,38 @@
+.product {
+  padding: 20px 10px;
+  border: 1px solid #eee;
+  width: 400px;
+  cursor: pointer;
+  &__card {
+    width: 95%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    text-align: center;
+    img {
+      width: 100%;
+    }
+    .title {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    .rating {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      column-gap: 5px;
+      svg {
+        color: #f1c40f;
+        height: 16px;
+        width: 16px;
+      }
+      span:last-child {
+        margin-left: 5px;
+      }
+    }
+    .price {
+      font-size: 1.4rem;
+    }
+  }
+}
