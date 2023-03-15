@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import './Header.scss';
 
@@ -6,21 +7,21 @@ const Header = () => {
   return (
     <header>
       <div className='brand'>
-        <a href='#j'>
+        <Link to='/'>
           eshop
-        </a>
+        </Link>
       </div>
       <nav className='nav'>
-        <a 
-          href='#cart'
+        <Link
+          to='/cart'
           className='nav__link'>
             Cart
-        </a>
-        <a 
-          href='#signin'
+        </Link>
+        <Link
+          to='/signin'
           className='nav__link'>
             Sign In
-        </a>
+        </Link>
       </nav>
     </header>
   );
