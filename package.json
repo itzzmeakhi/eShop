@@ -3,8 +3,13 @@
   "version": "1.0.0",
   "description": "Ecommerce application",
   "main": "server.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/server.js",
+    "server": "nodemon server/server.js",
+    "client": "npm start --prefix client",
+    "dev:start": "concurrently \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",
@@ -17,6 +22,11 @@
   },
   "homepage": "https://github.com/itzzmeakhi/eshop#readme",
   "dependencies": {
+    "dotenv": "^16.0.3",
     "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "nodemon": "^2.0.21"
   }
 }
