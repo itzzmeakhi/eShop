@@ -9,6 +9,7 @@ const ProductsList = ({ products }) => {
     <div className='products__list'>
       {products.map(product => (
         <Product 
+          key={product._id}
           product={product} 
         />
       ))}

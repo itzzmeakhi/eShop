@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import ProductsList from '../../components/ProductsList/ProductsList';
+
+import { fetchProducts } from './../../redux/products/actions';
 
 import './Home.scss';
 
 const Home = () => {
-  const [products, setProducts] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      const { data } = await axios.get('/api/products');
-      setProducts(data);
-    }
-    fetchProducts();
-  }, []);
+    dispatch(fetchProducts());
+  }, [ dispatch ]);
 
-  console.log('=> products', products);
+  const productList = useSelector(state => state.productList);
+
+  const { products } = productList;
 
   return (
     <div className='home'>

@@ -1,20 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { fetchProduct } from './../../redux/products/actions';
 
 import './Pdp.scss';
 
 const Pdp = () => {
-  const [product, setProduct] = useState({});
   const { id } = useParams();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      const { data } = await axios.get(`/api/products/${id}`);
-      setProduct(data);
-    };
-    fetchProduct();
-  }, [ id ]);
+    dispatch(fetchProduct(id));
+  }, [ dispatch, id ]);
+
+  const pdp = useSelector(state => state.pdp);
+
+  const { product } = pdp;
 
   return (
     <div className='pdp'>  
