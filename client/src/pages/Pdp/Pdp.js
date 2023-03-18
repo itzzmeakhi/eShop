@@ -19,10 +19,10 @@ const Pdp = () => {
   return (
     <div className='pdp'>  
       <div className='pdp-card image'>
-        <img src={product.image} alt={product.name} />
+        <img src={product.image} alt={product.title} />
       </div>
       <div className='pdp-card details'>
-        <h2>{product.name}</h2>
+        <h2>{product.title}</h2>
         <p className='price'>Rs. {product.price}</p>
         <p className='reviews'>Reviews</p>
         <p className='description'>{product.description}</p>

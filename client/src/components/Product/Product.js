@@ -5,7 +5,7 @@ import './Product.scss';
 
 const Product = ({ product }) => {
   const {
-    name,
+    title,
     image,
     price,
     rating,
@@ -16,8 +16,8 @@ const Product = ({ product }) => {
     <div className='product'>
       <Link to={`/product/${_id}`}>
         <div className='product__card'>
-          <img src={image} alt={name} />
-          <p className='title'>{name}</p>
+          <img src={image} alt={title} />
+          <p className='title'>{title}</p>
           <p className='rating'>
             <span>{rating}</span>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-2 h-2">
