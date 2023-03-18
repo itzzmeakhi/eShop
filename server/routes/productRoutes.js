@@ -4,18 +4,29 @@ import Product from '../models/Product.js';
 
 const router = Router();
 
-router.get('/', async (req, res) => {
-  const products = await Product.find({});
-  res.json(products);
+router.get('/', async (req, res, next) => {
+  try {
+    const products = await Product.find({});
+    res.json(products);
+  } catch (err) {
+    res.status(500);
+    next(err);
+  }
 });
 
 router.get('/:id', async (req, res) => {
-  const product = await Product.findById(req.params.id);
+  try {
+    const product = await Product.findById(req.params.id);
 
-  if(product) {
-    res.json(product);
-  } else {
-    res.status(404).json({ message: 'Product not found' });
+    if(product) {
+      res.json(product);
+    } else {
+      res.status(404);
+      throw Error('Product not found');
+    }
+  } catch(err) {
+    res.status(500);
+    next(err);
   }
 });
 
