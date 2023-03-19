@@ -6,14 +6,20 @@ import {
   pdpReducer 
 } from './products/reducers';
 import cartReducer from './cart/reducers';
+import userReducer from './user/reducers';
 
 const middleware = [ thunk ];
 
 const cartItemsFromStorage = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
 
+const userDataFromStorage = localStorage.getItem('loggedInUser') ? JSON.parse(localStorage.getItem('loggedInUser')) : null;
+
 const initialState = {
   cart: {
-      cartItems: cartItemsFromStorage
+    cartItems: cartItemsFromStorage
+  },
+  user: {
+    loggedInUser: userDataFromStorage
   }
 };
 
@@ -21,7 +27,8 @@ const store = configureStore({
   reducer: {
     productList: productListReducer,
     pdp: pdpReducer,
-    cart: cartReducer
+    cart: cartReducer,
+    user: userReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(middleware),
   preloadedState: initialState
