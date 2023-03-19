@@ -1,0 +1,14 @@
+.alert {
+  padding: 5px 5px 5px 20px;
+  margin: 20px 0px;
+  &.alert__error {
+    border: 1px solid #e74c3c;
+    background-color: #fad7d3;
+    color: #e74c3c;
+  }
+  &.alert__success {
+    border: 1px solid #10ac84;
+    background-color: #c2f9eb;
+    color: #10ac84;
+  }
+}
