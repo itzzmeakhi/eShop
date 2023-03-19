@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import ProductsList from '../../components/ProductsList/ProductsList';
+import Spinner from '../../components/Spinner/Spinner';
+import Alert from '../../components/Alert/Alert';
 
 import { fetchProducts } from './../../redux/products/actions';
 
@@ -16,14 +18,16 @@ const Home = () => {
 
   const productList = useSelector(state => state.productList);
 
-  const { products } = productList;
+  const { products, loading, error } = productList;
 
   return (
     <div className='home'>
       <h2> Latest Products </h2>
-      <ProductsList 
-        products={products}
-      />
+      { loading ? <Spinner /> : error ? <Alert type='error' message={error} /> : (
+        <ProductsList 
+          products={products}
+        />
+      )}
     </div>
   );
 };
