@@ -1,0 +1,50 @@
+.cart {
+  display: flex;
+  &__info {
+    margin-top: 20px;
+    h1 {
+      margin-bottom: 20px;
+    }
+    .card {
+      display: flex;
+      column-gap: 20px;
+      align-items: flex-start;
+      padding: 10px;
+      width: 600px;
+      height: 160px;
+      img {
+        width: 25%;
+        height: 100%;
+      }
+      .details {
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+        .title {
+          font-weight: bolder;
+        }
+        .qty {
+          padding: 5px;
+          select {
+            border: none;
+            margin-right: 10px;
+            &:focus-visible {
+              outline: none;
+            }
+          }
+        }
+        .remove {
+          display: flex;
+          column-gap: 2px;
+          color: #e74c3c;
+          cursor: pointer;
+          svg {
+            width: 18px;
+            height: 18px;
+          }
+        }
+      }
+    }
+  }
+}
