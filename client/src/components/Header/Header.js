@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { onLogoutUser } from './../../redux/user/actions';
@@ -8,7 +8,14 @@ import './Header.scss';
 
 const Header = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { loggedInUser } = useSelector(state => state.user);
+
+  const logoutHandler = () => {
+    dispatch(onLogoutUser());
+    navigate('/');
+  };
+
   return (
     <header>
       <div className='brand'>
@@ -30,7 +37,7 @@ const Header = () => {
                 {loggedInUser.firstName}
             </Link>
             <Link 
-              onClick={() => dispatch(onLogoutUser())}
+              onClick={() => logoutHandler()}
               className='nav__link'>
                 Sign out
           </Link>

@@ -1,5 +1,6 @@
 .cart {
   display: flex;
+  justify-content: space-between;
   &__info {
     margin-top: 20px;
     h1 {
@@ -45,6 +46,25 @@
           }
         }
       }
+    }
+  }
+  &__total {
+    margin-right: 200px;
+    border: 1px solid #eee;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    p {
+      font-size: 1.2rem;
+    }
+    button {
+      width: 100%;
+      border: none;
+      padding: 10px 0px;
+      cursor: pointer;
+      background-color: #2c3e50;
+      color: #fff;
     }
   }
 }

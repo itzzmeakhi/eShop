@@ -8,6 +8,7 @@ import {
   registerUserStart,
   registerUserFail
 } from './reducers';
+import { clearCart } from './../cart/actions';
 
 const onLoginUser = ({ email, password }) => async (dispatch) => {
   try {
@@ -59,6 +60,7 @@ const onLogoutUser = () => (dispatch) => {
   try {
     localStorage.removeItem('loggedInUser');
     dispatch(logoutUser());
+    dispatch(clearCart());
   } catch(err) {
     console.log(err);
   }
