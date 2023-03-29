@@ -82,7 +82,40 @@ const getUserProfile = async(req, res, next) => {
         name: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
-        isAdmin: user.isAdmin,
+        fullName: user.fullName,
+        isAdmin: user.isAdmin
+      });
+    } else {
+      res.status(404);
+      throw new Error('User not found');
+    }
+  } catch(err) {
+    next(err);
+  }
+};
+
+const updateUserProfile = async(req, res, next) => {
+  try {
+    const user = await User.findById(req.user._id);
+
+    if(user) {
+      user.firstName = req.body.firstName || user.firstName;
+      user.lastName = req.body.lastName || user.lastName;
+      user.email = req.body.email || user.email;
+      user.fullName = user.firstName + user.lastName;
+      if(req.body.password) {
+        user.password = req.body.password;
+      }
+
+      const updatedUser = await user.save();
+
+      res.json({
+        _id: updatedUser._id,
+        name: updatedUser.email,
+        firstName: updatedUser.firstName,
+        lastName: updatedUser.lastName,
+        fullName: updatedUser.fullName,
+        isAdmin: updatedUser.isAdmin
       });
     } else {
       res.status(404);
@@ -96,5 +129,6 @@ const getUserProfile = async(req, res, next) => {
 export { 
   authUser, 
   getUserProfile,
-  registerUser 
+  registerUser,
+  updateUserProfile 
 };
