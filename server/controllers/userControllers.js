@@ -34,7 +34,7 @@ const registerUser = async (req, res, next) => {
       res.status(201);
       res.json({
         _id: user._id,
-        name: user.email,
+        email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
         isAdmin: user.isAdmin,
@@ -57,7 +57,7 @@ const authUser = async (req, res, next) => {
     if(user && (await user.matchPassword(password))) {
       res.json({
         _id: user._id,
-        name: user.email,
+        email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
         isAdmin: user.isAdmin,
@@ -79,7 +79,7 @@ const getUserProfile = async(req, res, next) => {
     if(user) {
       res.json({
         _id: user._id,
-        name: user.email,
+        email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
         fullName: user.fullName,
@@ -102,7 +102,7 @@ const updateUserProfile = async(req, res, next) => {
       user.firstName = req.body.firstName || user.firstName;
       user.lastName = req.body.lastName || user.lastName;
       user.email = req.body.email || user.email;
-      user.fullName = user.firstName + user.lastName;
+      user.fullName = user.firstName +  ' ' +  user.lastName;
       if(req.body.password) {
         user.password = req.body.password;
       }
@@ -111,7 +111,7 @@ const updateUserProfile = async(req, res, next) => {
 
       res.json({
         _id: updatedUser._id,
-        name: updatedUser.email,
+        email: updatedUser.email,
         firstName: updatedUser.firstName,
         lastName: updatedUser.lastName,
         fullName: updatedUser.fullName,
