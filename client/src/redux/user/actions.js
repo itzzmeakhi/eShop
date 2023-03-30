@@ -6,7 +6,13 @@ import {
   loginUserFail,
   logoutUser,
   registerUserStart,
-  registerUserFail
+  registerUserFail,
+  getUserDetailsStart,
+  getUserDetailsSuccess,
+  getUserDetailsFail,
+  updateUserDetailsStart,
+  updateUserDetailsSuccess,
+  updateUserDetailsFail
 } from './reducers';
 import { clearCart } from './../cart/actions';
 
@@ -66,8 +72,56 @@ const onLogoutUser = () => (dispatch) => {
   }
 };
 
+const onFetchUserDetails = () => async (dispatch, getState) => {
+  try {
+    dispatch(getUserDetailsStart());
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getState().user.loggedInUser.token}`
+      }
+    }
+    const { data } = await axios.get(
+      '/api/users/profile',
+      config
+    );
+    dispatch(getUserDetailsSuccess(data));
+  } catch(err) {
+    const errMsg = err?.response?.data?.message ? err?.response?.data?.message : err?.message ? err?.message : 'An Unexpected error occurred. Please try again';
+    dispatch(getUserDetailsFail(errMsg));
+  }
+};
+
+const onUpdateUserDetails = ({ email, password, firstName, lastName }) => async (dispatch, getState) => {
+  try {
+    dispatch(updateUserDetailsStart());
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getState().user.loggedInUser.token}`
+      }
+    }
+    const { data } = await axios.put(
+      '/api/users/profile',
+      { email, password, firstName, lastName },
+      config
+    );
+    const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+    loggedInUser.email = data?.email || loggedInUser.email;
+    loggedInUser.firstName = data?.firstName || loggedInUser.firstName;
+    loggedInUser.lastName = data?.lastName || loggedInUser.lastName;
+    localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
+    dispatch(updateUserDetailsSuccess({ data, loggedInUser }));
+  } catch(err) {
+    const errMsg = err?.response?.data?.message ? err?.response?.data?.message : err?.message ? err?.message : 'An Unexpected error occurred. Please try again';
+    dispatch(updateUserDetailsFail(errMsg));
+  }
+};
+
 export { 
   onLoginUser,
   onLogoutUser,
-  onRegisterUser 
+  onRegisterUser,
+  onFetchUserDetails,
+  onUpdateUserDetails 
 };
