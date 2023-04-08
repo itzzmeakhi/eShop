@@ -5,7 +5,9 @@ const cartSlice = createSlice({
   initialState: {
     cartItems: [],
     loading: false,
-    error: null
+    error: null,
+    shippingAddress: {},
+    paymentMethod: ''
   },
   reducers: {
     addItemToCart(state, action) {
@@ -24,6 +26,12 @@ const cartSlice = createSlice({
     },
     clearItemsFromCart(state) {
       state.cartItems = [];
+    },
+    addShippingAddress(state, action) {
+      state.shippingAddress = action.payload;
+    },
+    updatePaymentMethod(state, action) {
+      state.paymentMethod = action.payload;
     }
   }
 });
@@ -33,5 +41,7 @@ export default cartSlice.reducer;
 export const { 
   addItemToCart, 
   removeItemFromCart,
-  clearItemsFromCart 
+  clearItemsFromCart,
+  addShippingAddress,
+  updatePaymentMethod 
 } = cartSlice.actions;
