@@ -3,7 +3,9 @@ import axios from 'axios';
 import {
   addItemToCart,
   removeItemFromCart,
-  clearItemsFromCart
+  clearItemsFromCart,
+  addShippingAddress,
+  updatePaymentMethod
 } from './reducers';
 
 export const addToCart = (productId, qty) => async (dispatch, getState) => {
@@ -38,6 +40,24 @@ export const clearCart = () => (dispatch) => {
   try {
     dispatch(clearItemsFromCart());
     localStorage.removeItem('cartItems');
+  } catch(err) {
+    console.log(err);
+  }
+};
+
+export const updateShippingAddress = (shippingAddress) => (dispatch) => {
+  try {
+    dispatch(addShippingAddress(shippingAddress));
+    localStorage.setItem('shippingAddress', JSON.stringify(shippingAddress));
+  } catch(err) {
+    console.log(err);
+  }
+};
+
+export const addPaymentMethod = (paymentMethod) => (dispatch) => {
+  try {
+    dispatch(updatePaymentMethod(paymentMethod));
+    localStorage.setItem('paymentMethod', JSON.stringify(paymentMethod));
   } catch(err) {
     console.log(err);
   }

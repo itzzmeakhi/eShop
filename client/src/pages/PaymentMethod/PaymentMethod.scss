@@ -1,0 +1,25 @@
+.payment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 20px;
+  form {
+    width: 30%;
+    .form-control {
+      margin-bottom: 20px;
+    }
+    .proceed-btn {
+      width: 100%;
+      padding: 10px;
+      cursor: pointer;
+      background-color: #2c3e50;
+      color: #fff;
+      border: none;
+      margin-bottom: 10px;
+    }
+    .spinner {
+      margin: 0 auto;
+    }
+  }
+}

@@ -26,8 +26,6 @@ const Cart = () => {
     }
   }, [ dispatch, productId, qty ]);
 
-  console.log('=> cartItems', cartItems);
-
   return (
     <div className='cart'>
       <div className='cart__info'>

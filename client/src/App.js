@@ -8,6 +8,9 @@ import Cart from './pages/Cart/Cart';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import Profile from './pages/Profile/Profile';
+import Shipping from './pages/Shipping/Shipping';
+import PaymentMethod from './pages/PaymentMethod/PaymentMethod';
+import OrderSummary from './pages/OrderSummary/OrderSummary';
 
 import './App.scss';
 
@@ -25,6 +28,9 @@ const App = () => {
           <Route path='login' element={<Login />} />
           <Route path='register' element={<Register />} />
           <Route path='profile' element={<Profile />} />
+          <Route path='shipping' element={<Shipping />} />
+          <Route path='payment' element={<PaymentMethod />} />
+          <Route path='summary' element={<OrderSummary />} />
         </Route>
       </Routes>
     </div>
