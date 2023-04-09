@@ -1,6 +1,6 @@
 import Product from '../models/Product.js';
 
-const getProducts = async (req, res) => {
+const getProducts = async (req, res, next) => {
   try {
     const products = await Product.find({});
     res.json(products);
@@ -10,7 +10,7 @@ const getProducts = async (req, res) => {
   }
 };
 
-const getProductById = async(req, res) => {
+const getProductById = async(req, res, next) => {
   try {
     const product = await Product.findById(req.params.id);
 

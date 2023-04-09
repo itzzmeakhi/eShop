@@ -5,14 +5,17 @@ import {
   removeItemFromCart,
   clearItemsFromCart,
   addShippingAddress,
-  updatePaymentMethod
+  updatePaymentMethod,
+  createOrderStart,
+  createOrderSuccessOrFail
 } from './reducers';
 
 export const addToCart = (productId, qty) => async (dispatch, getState) => {
+  console.log('=> addToCart action');
   try {
     const { data } = await axios.get(`/api/products/${productId}`);
     dispatch(addItemToCart({
-      productId: data._id,
+      _id: data._id,
       title: data.title,
       image: data.image,
       price: data.price,
@@ -28,7 +31,7 @@ export const addToCart = (productId, qty) => async (dispatch, getState) => {
 export const onRemoveItemFromCart = (productId) => (dispatch, getState) => {
   try {
     const cartItems = getState().cart.cartItems;
-    const newCartItems = cartItems.filter(cItem => cItem.productId !== productId);
+    const newCartItems = cartItems.filter(cItem => cItem._id !== productId);
     dispatch(removeItemFromCart(newCartItems));
     localStorage.setItem('cartItems', JSON.stringify(newCartItems));
   } catch(err) {
@@ -58,6 +61,26 @@ export const addPaymentMethod = (paymentMethod) => (dispatch) => {
   try {
     dispatch(updatePaymentMethod(paymentMethod));
     localStorage.setItem('paymentMethod', JSON.stringify(paymentMethod));
+  } catch(err) {
+    console.log(err);
+  }
+};
+
+export const createAnOrder = (orderData) => async (dispatch, getState) => {
+  try {
+    dispatch(createOrderStart());
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getState().user.loggedInUser.token}`
+      }
+    }
+    const { data } = await axios.post(
+      '/api/orders',
+      { ...orderData },
+      config
+    );
+    dispatch(createOrderSuccessOrFail(data));
   } catch(err) {
     console.log(err);
   }
