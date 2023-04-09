@@ -7,16 +7,16 @@ const cartSlice = createSlice({
     loading: false,
     error: null,
     shippingAddress: {},
-    paymentMethod: ''
+    paymentMethod: '',
+    createOrderLoading: false,
+    createOrderResponse: {}
   },
   reducers: {
     addItemToCart(state, action) {
       const item = action.payload;
-
-      const existingItem = state.cartItems.find(cItem => cItem.productId === item.productId);
-
+      const existingItem = state.cartItems.find(cItem => cItem._id === item._id);
       if (existingItem) {
-        state.cartItems = state.cartItems.map(cItem => cItem.productId === item.productId ? item : cItem);
+        state.cartItems = state.cartItems.map(cItem => cItem._id === item._id ? item : cItem);
       } else {
         state.cartItems = [...state.cartItems, {...item}];
       }
@@ -32,6 +32,13 @@ const cartSlice = createSlice({
     },
     updatePaymentMethod(state, action) {
       state.paymentMethod = action.payload;
+    },
+    createOrderStart(state) {
+      state.createOrderLoading = true;
+    },
+    createOrderSuccessOrFail(state, action) {
+      state.createOrderLoading = false;
+      state.createOrderResponse = action.payload;
     }
   }
 });
@@ -43,5 +50,7 @@ export const {
   removeItemFromCart,
   clearItemsFromCart,
   addShippingAddress,
-  updatePaymentMethod 
+  updatePaymentMethod,
+  createOrderStart,
+  createOrderSuccessOrFail 
 } = cartSlice.actions;

@@ -1,18 +1,46 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
+import { createAnOrder } from './../../redux/cart/actions';
 
 import './OrderSummary.scss';
 
 const OrderSummary = () => {
   const cart = useSelector(state => state.cart);
-  const { shippingAddress, paymentMethod, cartItems } = cart;
-  const itemsPrice = cartItems.reduce((acc, item) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { shippingAddress, paymentMethod, cartItems, createOrderResponse } = cart;
+  const itemsPrice = parseFloat(cartItems.reduce((acc, item) => {
     return acc + (item.qty * item.price);
-  }, 0);
-  const shippingPrice = itemsPrice < 1000 ? 100 : 0;
-  const codPrice = paymentMethod === 'cod' ? 22 : 0;
-  const taxPrice = (itemsPrice * 0.02).toFixed(2);
-  const totalPrice = (parseFloat(itemsPrice) + parseFloat(shippingPrice) + parseFloat(codPrice) + parseFloat(taxPrice)).toFixed(2);
+  }, 0)).toFixed(2);
+  const shippingPrice = parseFloat(itemsPrice < 1000 ? 100 : 0).toFixed(2);
+  const codPrice = parseFloat(paymentMethod === 'cod' ? 22 : 0).toFixed(2);
+  const taxPrice = parseFloat(itemsPrice * 0.02).toFixed(2);
+  const totalPrice = parseFloat(itemsPrice + shippingPrice + codPrice + taxPrice).toFixed(2);
+
+  const placeOrderHandler = () => {
+    dispatch(createAnOrder({
+      orderItems: cartItems,
+      shippingAddress,
+      billingAddress: shippingAddress,
+      paymentMethod,
+      shippingPrice,
+      codPrice,
+      taxPrice,
+      totalPrice,
+      itemsPrice
+    }));
+  };
+
+  const success = createOrderResponse?.success;
+
+  useEffect(() => {
+    if(success) {
+      navigate(`/order/${createOrderResponse?.orderId}`);
+    }
+  }, [ success, createOrderResponse, navigate ]);
+
   return (
     <div className='order-summary'>
       <div className='details'>
@@ -27,7 +55,7 @@ const OrderSummary = () => {
           <p> {paymentMethod} </p>
         </div>
         <div className='details-section'>
-          <h2>Items Summary</h2>
+          <h2> Order Items </h2>
 
           <div className='cart-info'>
 
@@ -36,7 +64,7 @@ const OrderSummary = () => {
             )}
 
             {cartItems.map(cItem => (
-              <div className='card' key={cItem.productId}>
+              <div className='card' key={cItem._id}>
                 <img src={cItem.image} alt={cItem.title} />
                 <div className='details'>
                   <p className='title'>{cItem.title}</p>
@@ -56,7 +84,7 @@ const OrderSummary = () => {
         <p>COD Price: <span> Rs. {codPrice} </span></p>
         <p>Tax Price: <span> Rs. {taxPrice} </span></p>
         <p>Total Price: <span> Rs. {totalPrice} </span></p>
-        <button>Place Order</button>
+        <button onClick={() => placeOrderHandler()}>Place Order</button>
       </div>
     </div>
   );
