@@ -40,4 +40,25 @@ const createOrder = async (req, res, next) => {
   }
 };
 
-export { createOrder };
+const getOrderDetailsById = async (req, res, next) => {
+  try {
+    const order = await Order.findById(req.params.id).populate(
+      'user',
+      'fullName email'
+    );
+
+    if(order) {
+      res.json(order);
+    } else {
+      res.status(404);
+      throw Error('Order not found');
+    }
+  } catch(err) {
+    next(err);
+  }
+};
+
+export { 
+  createOrder,
+  getOrderDetailsById 
+};

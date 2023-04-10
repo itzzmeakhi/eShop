@@ -11,7 +11,6 @@ import {
 } from './reducers';
 
 export const addToCart = (productId, qty) => async (dispatch, getState) => {
-  console.log('=> addToCart action');
   try {
     const { data } = await axios.get(`/api/products/${productId}`);
     dispatch(addItemToCart({

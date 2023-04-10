@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,12 +11,19 @@ const PaymentMethod = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [paymentMethod, setPaymentMethod] = useState(cart.paymentMethod);
+  const loggedInUser = useSelector(state => state.user.loggedInUser);
 
   const updatePaymentMethodAndProceed = (e) => {
     e.preventDefault();
     dispatch(addPaymentMethod(paymentMethod));
     navigate('/summary');
   };
+
+  useEffect(() => {
+    if(!loggedInUser) {
+      navigate('/login?redirect=cart');
+    }
+  }, [loggedInUser, navigate]);
 
   return (
     <div className='payment'>
