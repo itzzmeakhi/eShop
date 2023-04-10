@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 import Alert from '../../components/Alert/Alert';
 import Spinner from '../../components/Spinner/Spinner';
@@ -14,15 +14,17 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const userInfo = useSelector(state => state.user);
   const { loggedInUser, error, loading } = userInfo;
+  const redirectPage = location.search ? location.search.split('=')[1] : '';
 
   useEffect(() => {
     if(loggedInUser) {
-      navigate('/');
+      navigate(`/${redirectPage}`);
     }
-  }, [ loggedInUser, navigate ]);
+  }, [ loggedInUser, navigate, redirectPage ]);
 
   const loginHandler = (e) => {
     e.preventDefault();

@@ -8,6 +8,7 @@ import './OrderSummary.scss';
 
 const OrderSummary = () => {
   const cart = useSelector(state => state.cart);
+  const loggedInUser = useSelector(state => state.user.loggedInUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { shippingAddress, paymentMethod, cartItems, createOrderResponse } = cart;
@@ -18,6 +19,12 @@ const OrderSummary = () => {
   const codPrice = parseFloat(paymentMethod === 'cod' ? 22 : 0).toFixed(2);
   const taxPrice = parseFloat(itemsPrice * 0.02).toFixed(2);
   const totalPrice = parseFloat(itemsPrice + shippingPrice + codPrice + taxPrice).toFixed(2);
+
+  useEffect(() => {
+    if(!loggedInUser) {
+      navigate('/login?redirect=cart');
+    }
+  }, [loggedInUser, navigate]);
 
   const placeOrderHandler = () => {
     dispatch(createAnOrder({
@@ -37,7 +44,7 @@ const OrderSummary = () => {
 
   useEffect(() => {
     if(success) {
-      navigate(`/order/${createOrderResponse?.orderId}`);
+      navigate(`/orders/${createOrderResponse?.orderId}`);
     }
   }, [ success, createOrderResponse, navigate ]);
 

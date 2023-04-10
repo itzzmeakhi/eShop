@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,6 +15,13 @@ const Shipping = () => {
   const [state, setState] = useState(shippingAddress.state);
   const [contactNum, setContactNum] = useState(shippingAddress.contactNum);
   const [pincode, setPincode] = useState(shippingAddress.pincode);
+  const loggedInUser = useSelector(state => state.user.loggedInUser);
+
+  useEffect(() => {
+    if(!loggedInUser) {
+      navigate('/login?redirect=cart');
+    }
+  }, [loggedInUser, navigate]);
 
   const addShippingAddress = (e) => {
     e.preventDefault();

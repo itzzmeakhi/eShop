@@ -31,8 +31,8 @@ const Register = () => {
   } = userInfo;
 
   useEffect(() => {
-    if(!true) {
-      navigate('/');
+    if(!loggedInUser) {
+      navigate('/login?redirect=profile');
     } else {
       if(userDetails) {
         setFirstName(userDetails?.firstName);

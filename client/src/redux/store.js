@@ -7,6 +7,7 @@ import {
 } from './products/reducers';
 import cartReducer from './cart/reducers';
 import userReducer from './user/reducers';
+import orderReducer from './order/reducers';
 
 const middleware = [ thunk ];
 
@@ -34,7 +35,8 @@ const store = configureStore({
     productList: productListReducer,
     pdp: pdpReducer,
     cart: cartReducer,
-    user: userReducer
+    user: userReducer,
+    orderDetails: orderReducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(middleware),
   preloadedState: initialState
