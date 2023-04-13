@@ -31,7 +31,9 @@ const OrderDetails = () => {
     taxPrice,
     totalPrice,
     shippingPrice,
-    user
+    user,
+    isPaid,
+    isDelivered
   } = order;
 
   useEffect(() => {
@@ -40,7 +42,6 @@ const OrderDetails = () => {
     }
   }, [loggedInUser, navigate, id]);
 
-
   return (
     <div className='order-details'>
        {loading ? <Spinner /> : (
@@ -48,10 +49,12 @@ const OrderDetails = () => {
           {order && (
             <>
               <div className='summary'>
-                <div className='card'>
+                <div className='card order-details'>
                   <h2>Order Details</h2>
                   <p>Order Id: {id}</p>
-                  <p>Ordered on: {createdAt} </p>
+                  <p>Ordered on: {new Date(createdAt).toDateString()} </p>
+                  <p>Payment status: <span>{ isPaid ? 'Paid' : 'Not Paid' }</span></p>
+                  <p>Delivery status: <span>{ isDelivered ? 'Delivered' : 'Not Delivered' }</span></p>
                 </div>
                 <div className='card'>
                   <h2>Billing Address</h2>

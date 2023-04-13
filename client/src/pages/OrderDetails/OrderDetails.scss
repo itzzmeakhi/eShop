@@ -48,6 +48,17 @@
           }
         }
       }
+
+      &.order-details {
+        p {
+          span {
+            border: 1px solid #00cec9;
+            border-radius: 5px;
+            padding: 2px 5px;
+            background: #81ecec;
+          }
+        }
+      }
     }
   }
   .price {

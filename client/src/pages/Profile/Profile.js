@@ -9,6 +9,7 @@ import {
   onFetchUserDetails,
   onUpdateUserDetails
 } from './../../redux/user/actions';
+import { fetchAllOrders } from './../../redux/order/actions';
 
 
 import './Profile.scss';
@@ -23,6 +24,7 @@ const Register = () => {
   const [editMode, setEditMode] = useState(false);
 
   const userInfo = useSelector(state => state.user);
+  const orders = useSelector(state => state.orderDetails.orders);
   const { 
     loggedInUser, 
     error, 
@@ -39,8 +41,10 @@ const Register = () => {
         setLastName(userDetails?.lastName);
         setEmail(userDetails?.email);
         setPassword('');
+        dispatch(fetchAllOrders());
       } else {
         dispatch(onFetchUserDetails());
+        dispatch(fetchAllOrders());
       }
     }
   }, [ loggedInUser, navigate, dispatch, userDetails ]);
@@ -142,8 +146,22 @@ const Register = () => {
               )}
             </div>
           </div>
+          <h2> My Orders </h2>
           <div className='orders-container'>
-
+            <>
+              {orders.map((order, index) => {
+                return (
+                  <div className='order-card' key={order._id} onClick={() => navigate(`/orders/${order._id}`)}>
+                    <span>{index+1}.</span>
+                    <span>{order._id}</span>
+                    <span>{new Date(order.createdAt).toDateString()}</span>
+                    <span>Rs. {order.totalPrice}</span>
+                    <span>{order.isPaid ? 'Paid' : 'Not Paid'}</span>
+                    <span>{order.isDelivered ? 'Delivered' : 'Not Delivered'}</span>
+                  </div>
+                )
+              })}
+            </>
           </div>
         </>
       )}

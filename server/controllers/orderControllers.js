@@ -58,7 +58,25 @@ const getOrderDetailsById = async (req, res, next) => {
   }
 };
 
+const getOrders = async(req, res, next) => {
+  try {
+    const orders = await Order.find({ user: req.user._id }).select('createdAt totalPrice isDelivered isPaid');
+
+    if(orders) {
+      res.json({
+        orders: orders
+      });
+    } else {
+      res.status(404);
+      throw new Error('User not found');
+    }
+  } catch(err) {
+    next(err);
+  }
+};
+
 export { 
   createOrder,
-  getOrderDetailsById 
+  getOrderDetailsById,
+  getOrders 
 };

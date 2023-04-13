@@ -79,6 +79,7 @@ export const createAnOrder = (orderData) => async (dispatch, getState) => {
       { ...orderData },
       config
     );
+    dispatch(clearCart());
     dispatch(createOrderSuccessOrFail(data));
   } catch(err) {
     console.log(err);
