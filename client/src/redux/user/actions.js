@@ -12,7 +12,13 @@ import {
   getUserDetailsFail,
   updateUserDetailsStart,
   updateUserDetailsSuccess,
-  updateUserDetailsFail
+  updateUserDetailsFail,
+  loadAllUsersStart,
+  loadAllUsersSuccess,
+  loadAllUsersFail,
+  removeUserStart,
+  removeUserSuccess,
+  removeUserFail
 } from './reducers';
 import { clearCart } from './../cart/actions';
 
@@ -118,10 +124,46 @@ const onUpdateUserDetails = ({ email, password, firstName, lastName }) => async 
   }
 };
 
+const onFetchAllUsers = () => async (dispatch, getState) => {
+  try {
+    dispatch(loadAllUsersStart());
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getState().user.loggedInUser.token}`
+      }
+    };
+    const { data } = await axios.get('/api/users/userslist', config);
+    dispatch(loadAllUsersSuccess(data));
+  } catch(err) {
+    const errMsg = err?.response?.data?.message ? err?.response?.data?.message : err?.message ? err?.message : 'An Unexpected error occurred. Please try again';
+    dispatch(loadAllUsersFail(errMsg));
+  }
+};
+
+const onRemoveUser = (id) => async (dispatch, getState) => {
+  try {
+    dispatch(removeUserStart());
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getState().user.loggedInUser.token}`
+      }
+    };
+    const { data } = await axios.delete(`/api/users/remove/${id}`, config);
+    dispatch(removeUserSuccess(data));
+  } catch(err) {
+    const errMsg = err?.response?.data?.message ? err?.response?.data?.message : err?.message ? err?.message : 'An Unexpected error occurred. Please try again';
+    dispatch(removeUserFail(errMsg));
+  }
+};
+
 export { 
   onLoginUser,
   onLogoutUser,
   onRegisterUser,
   onFetchUserDetails,
-  onUpdateUserDetails 
+  onUpdateUserDetails,
+  onFetchAllUsers,
+  onRemoveUser 
 };

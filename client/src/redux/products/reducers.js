@@ -55,7 +55,7 @@ export const {
 export const { 
   fetchProductListStart, 
   fetchProductListSuccess, 
-  fetchProductListFail 
+  fetchProductListFail
 } = productListSlice.actions;
 
 export const {

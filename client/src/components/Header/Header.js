@@ -10,6 +10,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loggedInUser } = useSelector(state => state.user);
+  const isAdmin = !!loggedInUser?.isAdmin;
 
   const logoutHandler = () => {
     dispatch(onLogoutUser());
@@ -24,11 +25,20 @@ const Header = () => {
         </Link>
       </div>
       <nav className='nav'>
-        <Link
-          to='/cart'
-          className='nav__link'>
-            Cart
-        </Link>
+        {!isAdmin && (
+          <Link
+            to='/cart'
+            className='nav__link'>
+              Cart
+          </Link>
+        )}
+        {isAdmin && (
+          <Link
+            to='/admin/users'
+            className='nav__link'>
+              Users
+          </Link>
+        )}
         {loggedInUser ? (
           <>
             <Link 

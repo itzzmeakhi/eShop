@@ -12,6 +12,7 @@ import Shipping from './pages/Shipping/Shipping';
 import PaymentMethod from './pages/PaymentMethod/PaymentMethod';
 import OrderSummary from './pages/OrderSummary/OrderSummary';
 import OrderDetails from './pages/OrderDetails/OrderDetails';
+import UsersList from './pages/UsersList/UsersList';
 
 import './App.scss';
 
@@ -34,6 +35,9 @@ const App = () => {
           <Route path='summary' element={<OrderSummary />} />
           <Route path='orders'>
             <Route path=':id' element={<OrderDetails />} />
+          </Route>
+          <Route path='admin'>
+            <Route path='users' element={<UsersList />} />
           </Route>
         </Route>
       </Routes>
