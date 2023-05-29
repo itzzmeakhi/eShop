@@ -13,6 +13,7 @@ import PaymentMethod from './pages/PaymentMethod/PaymentMethod';
 import OrderSummary from './pages/OrderSummary/OrderSummary';
 import OrderDetails from './pages/OrderDetails/OrderDetails';
 import UsersList from './pages/UsersList/UsersList';
+import ProductsTable from './pages/ProductsTable/ProductsTable';
 
 import './App.scss';
 
@@ -38,6 +39,7 @@ const App = () => {
           </Route>
           <Route path='admin'>
             <Route path='users' element={<UsersList />} />
+            <Route path='products' element={<ProductsTable />} />
           </Route>
         </Route>
       </Routes>

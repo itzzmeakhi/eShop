@@ -5,7 +5,8 @@ const productListSlice = createSlice({
   initialState: {
     loading: false,
     error: null,
-    products: []
+    products: [],
+    productDeleteAndReload: false,
   },
   reducers: {
     fetchProductListStart(state) {
@@ -14,9 +15,20 @@ const productListSlice = createSlice({
     fetchProductListSuccess(state, action) {
       state.loading = false;
       state.products = action.payload;
+      state.productDeleteAndReload = false;
     },
     fetchProductListFail(state, action) {
       state.loading = false;
+      state.error = action.payload;
+    },
+    removeProductStart(state) {
+      state.loading = true;
+    },
+    removeProductSuccess(state) {
+      state.loading = false;
+      state.productDeleteAndReload = true;
+    },
+    removeProductFail(state, action) {
       state.error = action.payload;
     }
   }
@@ -55,7 +67,10 @@ export const {
 export const { 
   fetchProductListStart, 
   fetchProductListSuccess, 
-  fetchProductListFail
+  fetchProductListFail,
+  removeProductStart,
+  removeProductSuccess,
+  removeProductFail
 } = productListSlice.actions;
 
 export const {

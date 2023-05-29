@@ -25,4 +25,20 @@ const getProductById = async(req, res, next) => {
   }
 };
 
-export { getProducts, getProductById };
+const removeProductById = async (req, res, next) => {
+  try {
+    const product = await Product.findById(req.params.id);
+
+    if(product) {
+      await Product.findByIdAndRemove(req.params.id);
+      res.json({ message: 'User removed'});
+    } else {
+      res.status(404);
+      throw new Error('User not found');
+    }
+  } catch(err) {
+    next(err);
+  }
+};
+
+export { getProducts, getProductById, removeProductById };
