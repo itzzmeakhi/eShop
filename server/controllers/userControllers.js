@@ -126,9 +126,37 @@ const updateUserProfile = async(req, res, next) => {
   }
 };
 
+const getUsers = async (req, res, next) => {
+  try {
+    const products = await User.find({});
+    res.json(products);
+  } catch (err) {
+    res.status(500);
+    next(err);
+  }
+};
+
+const deleteUser = async (req, res, next) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+
+    if(user) {
+      await User.findByIdAndRemove(req.params.id);
+      res.json({ message: 'User removed'});
+    } else {
+      res.status(404);
+      throw new Error('User not found');
+    }
+  } catch(err) {
+    next(err);
+  }
+};
+
 export { 
   authUser, 
   getUserProfile,
   registerUser,
-  updateUserProfile 
+  updateUserProfile,
+  getUsers,
+  deleteUser 
 };

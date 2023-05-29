@@ -25,4 +25,17 @@ const protect = async (req, res, next) => {
   }
 };
 
-export default protect;
+const admin = async (req, res, next) => {
+  try {
+    if (req.user && req.user.isAdmin) {
+      next();
+    } else {
+      res.status(401);
+      throw new Error('Not authorized as admin');
+    }
+  } catch(err) {
+    next(err);
+  }
+};
+
+export { protect, admin };

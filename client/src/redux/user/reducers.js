@@ -6,7 +6,9 @@ const userSlice = createSlice({
     loggedInUser: null,
     loading: true,
     error: null,
-    userDetails: {}
+    userDetails: {},
+    usersList: [],
+    userDeletedAndReload: false
   },
   reducers: {
     loginUserStart(state) {
@@ -55,6 +57,31 @@ const userSlice = createSlice({
     updateUserDetailsFail(state, action) {
       state.loading = false;
       state.error = action.payload;
+    },
+    loadAllUsersStart(state) {
+      state.loading = true;
+    },
+    loadAllUsersSuccess(state, action) {
+      state.loading = false;
+      state.usersList = action.payload;
+      state.userDeletedAndReload = false;
+    },
+    loadAllUsersFail(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    removeUserStart(state) {
+      state.loading = true;
+    },
+    removeUserSuccess(state, action) {
+      state.loading = false;
+      state.users = action.payload;
+      state.userDeletedAndReload = true;
+    },
+    removeUserFail(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+      state.userDeletedAndReload = false;
     }
   }
 });
@@ -74,5 +101,11 @@ export const {
   getUserDetailsFail,
   updateUserDetailsStart,
   updateUserDetailsSuccess,
-  updateUserDetailsFail
+  updateUserDetailsFail,
+  loadAllUsersStart,
+  loadAllUsersSuccess,
+  loadAllUsersFail,
+  removeUserStart,
+  removeUserSuccess,
+  removeUserFail
 } = userSlice.actions;
