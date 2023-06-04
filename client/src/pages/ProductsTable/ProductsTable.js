@@ -25,8 +25,6 @@ const ProductsTable = () => {
     
   }, [ dispatch, loggedInUser, navigate, productDeleteAndReload ]);
 
-  console.log('=> products', products);
-
   const removeProductHandler = (id) => {
     if(window.confirm('Are you sure you want to remove the product')) {
       dispatch(removeProduct(id));

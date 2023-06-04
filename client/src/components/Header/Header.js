@@ -44,6 +44,11 @@ const Header = () => {
               className='nav__link'>
                 Products
             </Link>
+            <Link
+              to='/admin/orders'
+              className='nav__link'>
+                Orders
+            </Link>
           </>
         )}
         {loggedInUser ? (

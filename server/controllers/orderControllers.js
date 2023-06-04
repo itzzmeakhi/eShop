@@ -58,7 +58,7 @@ const getOrderDetailsById = async (req, res, next) => {
   }
 };
 
-const getOrders = async(req, res, next) => {
+const getOrders = async (req, res, next) => {
   try {
     const orders = await Order.find({ user: req.user._id }).select('createdAt totalPrice isDelivered isPaid');
 
@@ -75,8 +75,19 @@ const getOrders = async(req, res, next) => {
   }
 };
 
+const getAllOrders = async (req, res, next) => {
+  try {
+    const orders = await Order.find({});
+    res.json(orders);
+  } catch (err) {
+    res.status(500);
+    next(err);
+  }
+};
+
 export { 
   createOrder,
   getOrderDetailsById,
-  getOrders 
+  getOrders,
+  getAllOrders 
 };
