@@ -9,7 +9,13 @@ import {
   fetchProductFail,
   removeProductStart,
   removeProductSuccess,
-  removeProductFail
+  removeProductFail,
+  updateProductStart,
+  updateProductSuccess,
+  updateProductFail,
+  createProductStart,
+  createProductSuccess,
+  createProductFail
 } from './reducers';
 
 export const fetchProducts = () => async (dispatch) => {
@@ -48,5 +54,59 @@ export const removeProduct = (id) => async (dispatch, getState) => {
   } catch(err) {
     const msg = err.message;
     dispatch(removeProductFail(msg));
+  }
+};
+
+export const updateProductById = (product) => async (dispatch, getState) => {
+  try {
+    dispatch(updateProductStart());
+    const {
+      id,
+      title,
+      description,
+      countInStock,
+      price,
+      image,
+      brand,
+      category
+    } = product;
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getState().user.loggedInUser.token}`
+      }
+    };
+    const { data } = await axios.put(
+      `/api/products/${id}`, 
+      { title, description, category, brand, countInStock, image, price },
+      config
+    );
+    dispatch(updateProductSuccess(data));
+  } catch(err) {
+    const msg = err.message;
+    dispatch(updateProductFail(msg));
+  }
+};
+
+export const createProduct = (product) => async (dispatch, getState) => {
+  try {
+    const { title, description, brand, category, price, countInStock, image } = product;
+    dispatch(createProductStart());
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getState().user.loggedInUser.token}`
+      }
+    }
+    const { data } = await axios.post(
+      '/api/products', 
+      { title, description, brand, category, price, countInStock, image }, 
+      config
+    );
+
+    dispatch(createProductSuccess(data));
+  } catch(err) {
+    const errMsg = err?.response?.data?.message ? err?.response?.data?.message : err?.message ? err?.message : 'An Unexpected error occurred. Please try again';
+    dispatch(createProductFail(errMsg));
   }
 };

@@ -6,7 +6,7 @@ const productListSlice = createSlice({
     loading: false,
     error: null,
     products: [],
-    productDeleteAndReload: false,
+    productDeleteAndReload: false
   },
   reducers: {
     fetchProductListStart(state) {
@@ -20,6 +20,7 @@ const productListSlice = createSlice({
     fetchProductListFail(state, action) {
       state.loading = false;
       state.error = action.payload;
+      state.productDeleteAndReload = false;
     },
     removeProductStart(state) {
       state.loading = true;
@@ -29,6 +30,18 @@ const productListSlice = createSlice({
       state.productDeleteAndReload = true;
     },
     removeProductFail(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    createProductStart(state) {
+      state.loading = true;
+    },
+    createProductSuccess(state, action) {
+      state.loading = false;
+      state.productDeleteAndReload = true;
+    },
+    createProductFail(state, action) {
+      state.loading = false;
       state.error = action.payload;
     }
   }
@@ -52,6 +65,16 @@ const pdpSlice = createSlice({
     fetchProductFail(state, action) {
       state.loading = false;
       state.error = action.payload;
+    },
+    updateProductStart(state) {
+      state.loading = true;
+    },
+    updateProductSuccess(state, action) {
+      state.loading = false;
+    },
+    updateProductFail(state, action) {
+      state.loading = false;
+      state.error = action.payload;
     }
   }
 });
@@ -70,11 +93,17 @@ export const {
   fetchProductListFail,
   removeProductStart,
   removeProductSuccess,
-  removeProductFail
+  removeProductFail,
+  createProductStart,
+  createProductSuccess,
+  createProductFail
 } = productListSlice.actions;
 
 export const {
   fetchProductStart,
   fetchProductSuccess,
-  fetchProductFail
+  fetchProductFail,
+  updateProductStart,
+  updateProductSuccess,
+  updateProductFail
 } = pdpSlice.actions;

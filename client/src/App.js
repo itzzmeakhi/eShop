@@ -16,6 +16,7 @@ import UsersList from './pages/UsersList/UsersList';
 import ProductsTable from './pages/ProductsTable/ProductsTable';
 
 import './App.scss';
+import CreateProduct from './pages/CreateProduct/CreateProduct';
 
 const App = () => {
   return (
@@ -40,6 +41,10 @@ const App = () => {
           <Route path='admin'>
             <Route path='users' element={<UsersList />} />
             <Route path='products' element={<ProductsTable />} />
+            <Route path='product'>
+              <Route index element={<CreateProduct />} />
+              <Route path=':productId' element={<CreateProduct />} />
+            </Route>
           </Route>
         </Route>
       </Routes>

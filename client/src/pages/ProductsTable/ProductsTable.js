@@ -33,11 +33,21 @@ const ProductsTable = () => {
     }
   };
 
+  const editProductHandler = (id) => {
+    navigate(`/admin/product/${id}`);
+  };
+
   return (
     <div className='products-table'>
       {loading ? <Spinner /> : (
         <>
           <h1> Products </h1>
+          <hr></hr>
+          <button 
+            onClick={() => navigate('/admin/product')}
+            className='create-btn'>
+              Create New Product
+          </button>
           <table>
             <thead>
               <tr>
@@ -59,7 +69,7 @@ const ProductsTable = () => {
                   <td>Rs. {product.price}</td>
                   <td>
                     <button className='delete' onClick={() => removeProductHandler(product._id)}>Delete</button>
-                    <button className='edit' onClick={() => removeProduct(product._id)}>Edit</button>
+                    <button className='edit' onClick={() => editProductHandler(product._id)}>Edit</button>
                   </td>
                 </tr>
               ))}
