@@ -30,6 +30,17 @@ const orderDetailsSlice = createSlice({
     fetchOrdersFail(state, action) {
       state.loading = false;
       state.error = action.payload;
+    },
+    fetchAllOrdersStart(state) {
+      state.loading = true;
+    },
+    fetchAllOrdersSuccess(state, action) {
+      state.loading = false;
+      state.orders = action.payload;
+    },
+    fetchAllOrdersFail(state, action) {
+      state.loading = false;
+      state.error = action.payload;
     }
   }
 });
@@ -42,5 +53,8 @@ export const {
   fetchOrderDetailsFail,
   fetchOrdersStart,
   fetchOrdersSuccess,
-  fetchOrdersFail 
+  fetchOrdersFail,
+  fetchAllOrdersStart,
+  fetchAllOrdersSuccess,
+  fetchAllOrdersFail 
 } = orderDetailsSlice.actions;

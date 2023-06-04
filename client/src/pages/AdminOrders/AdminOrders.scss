@@ -1,0 +1,25 @@
+.admin-orders {
+  .spinner {
+    margin: 100px auto 0px;
+  }
+  .orders-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 20px;
+    .order-card {
+      width: 850px;
+      display: flex;
+      column-gap: 30px;
+      border: 2px solid #eee;
+      padding: 30px;
+      cursor: pointer;
+      transition: scale 0.2s;
+      &:hover {
+        scale: (1.05);
+      }
+    }
+  }
+}

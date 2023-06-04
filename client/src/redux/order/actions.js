@@ -6,7 +6,10 @@ import {
   fetchOrderDetailsFail,
   fetchOrdersStart,
   fetchOrdersSuccess,
-  fetchOrdersFail
+  fetchOrdersFail,
+  fetchAllOrdersStart,
+  fetchAllOrdersSuccess,
+  fetchAllOrdersFail
 } from './reducers';
 
 export const fetchOrderDetails = (id) => async (dispatch, getState) => {
@@ -40,5 +43,22 @@ export const fetchAllOrders = () => async (dispatch, getState) => {
   } catch (err) {
     const msg = err.message;
     dispatch(fetchOrdersFail(msg));
+  }
+};
+
+export const fetchAllOrdersByAllUsers = () => async (dispatch, getState) => {
+  try {
+    dispatch(fetchAllOrdersStart());
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getState().user.loggedInUser.token}`
+      }
+    }
+    const { data } = await axios.get(`/api/orders/admin`, config);
+    dispatch(fetchAllOrdersSuccess(data));
+  } catch (err) {
+    const msg = err.message;
+    dispatch(fetchAllOrdersFail(msg));
   }
 };
