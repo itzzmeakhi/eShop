@@ -29,7 +29,6 @@ export const fetchOrderDetails = (id) => async (dispatch, getState) => {
 export const fetchAllOrders = () => async (dispatch, getState) => {
   try {
     dispatch(fetchOrdersStart());
-    console.log('=> getState', getState());
     const config = {
       headers: {
         'Content-Type': 'application/json',

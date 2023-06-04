@@ -5,7 +5,8 @@ const productListSlice = createSlice({
   initialState: {
     loading: false,
     error: null,
-    products: []
+    products: [],
+    productDeleteAndReload: false
   },
   reducers: {
     fetchProductListStart(state) {
@@ -14,8 +15,32 @@ const productListSlice = createSlice({
     fetchProductListSuccess(state, action) {
       state.loading = false;
       state.products = action.payload;
+      state.productDeleteAndReload = false;
     },
     fetchProductListFail(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+      state.productDeleteAndReload = false;
+    },
+    removeProductStart(state) {
+      state.loading = true;
+    },
+    removeProductSuccess(state) {
+      state.loading = false;
+      state.productDeleteAndReload = true;
+    },
+    removeProductFail(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    createProductStart(state) {
+      state.loading = true;
+    },
+    createProductSuccess(state, action) {
+      state.loading = false;
+      state.productDeleteAndReload = true;
+    },
+    createProductFail(state, action) {
       state.loading = false;
       state.error = action.payload;
     }
@@ -40,6 +65,16 @@ const pdpSlice = createSlice({
     fetchProductFail(state, action) {
       state.loading = false;
       state.error = action.payload;
+    },
+    updateProductStart(state) {
+      state.loading = true;
+    },
+    updateProductSuccess(state, action) {
+      state.loading = false;
+    },
+    updateProductFail(state, action) {
+      state.loading = false;
+      state.error = action.payload;
     }
   }
 });
@@ -55,11 +90,20 @@ export const {
 export const { 
   fetchProductListStart, 
   fetchProductListSuccess, 
-  fetchProductListFail
+  fetchProductListFail,
+  removeProductStart,
+  removeProductSuccess,
+  removeProductFail,
+  createProductStart,
+  createProductSuccess,
+  createProductFail
 } = productListSlice.actions;
 
 export const {
   fetchProductStart,
   fetchProductSuccess,
-  fetchProductFail
+  fetchProductFail,
+  updateProductStart,
+  updateProductSuccess,
+  updateProductFail
 } = pdpSlice.actions;

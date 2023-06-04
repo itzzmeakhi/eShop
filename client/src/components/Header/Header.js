@@ -33,11 +33,18 @@ const Header = () => {
           </Link>
         )}
         {isAdmin && (
-          <Link
-            to='/admin/users'
-            className='nav__link'>
-              Users
-          </Link>
+          <>
+            <Link
+              to='/admin/users'
+              className='nav__link'>
+                Users
+            </Link>
+            <Link
+              to='/admin/products'
+              className='nav__link'>
+                Products
+            </Link>
+          </>
         )}
         {loggedInUser ? (
           <>

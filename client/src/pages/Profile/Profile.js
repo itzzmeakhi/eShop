@@ -32,6 +32,8 @@ const Register = () => {
     userDetails 
   } = userInfo;
 
+  const isAdmin = !!loggedInUser?.isAdmin;
+
   useEffect(() => {
     if(!loggedInUser) {
       navigate('/login?redirect=profile');
@@ -41,13 +43,17 @@ const Register = () => {
         setLastName(userDetails?.lastName);
         setEmail(userDetails?.email);
         setPassword('');
-        dispatch(fetchAllOrders());
+        if (!isAdmin) {
+          dispatch(fetchAllOrders());
+        }
       } else {
         dispatch(onFetchUserDetails());
-        dispatch(fetchAllOrders());
+        if (!isAdmin) {
+          dispatch(fetchAllOrders());
+        }
       }
     }
-  }, [ loggedInUser, navigate, dispatch, userDetails ]);
+  }, [ loggedInUser, navigate, dispatch, userDetails, isAdmin ]);
 
   const handleCancelEditMode = () => {
     setFirstName(userDetails?.firstName);
@@ -146,23 +152,27 @@ const Register = () => {
               )}
             </div>
           </div>
-          <h2> My Orders </h2>
-          <div className='orders-container'>
+          {!isAdmin && (
             <>
-              {orders.map((order, index) => {
-                return (
-                  <div className='order-card' key={order._id} onClick={() => navigate(`/orders/${order._id}`)}>
-                    <span>{index+1}.</span>
-                    <span>{order._id}</span>
-                    <span>{new Date(order.createdAt).toDateString()}</span>
-                    <span>Rs. {order.totalPrice}</span>
-                    <span>{order.isPaid ? 'Paid' : 'Not Paid'}</span>
-                    <span>{order.isDelivered ? 'Delivered' : 'Not Delivered'}</span>
-                  </div>
-                )
-              })}
+              <h2> My Orders </h2>
+              <div className='orders-container'>
+                <>
+                  {orders.map((order, index) => {
+                    return (
+                      <div className='order-card' key={order._id} onClick={() => navigate(`/orders/${order._id}`)}>
+                        <span>{index+1}.</span>
+                        <span>{order._id}</span>
+                        <span>{new Date(order.createdAt).toDateString()}</span>
+                        <span>Rs. {order.totalPrice}</span>
+                        <span>{order.isPaid ? 'Paid' : 'Not Paid'}</span>
+                        <span>{order.isDelivered ? 'Delivered' : 'Not Delivered'}</span>
+                      </div>
+                    )
+                  })}
+                </>
+              </div>
             </>
-          </div>
+          )}
         </>
       )}
     </div>
